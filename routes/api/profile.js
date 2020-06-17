@@ -99,4 +99,104 @@ router.get('/', async (req, res) => {
 	}
 });
 
+//@route-------GET api/profile/user/:user_id
+//@desc--------Get profile by user ID
+//@access------Public
+
+router.get('/user/:user_id', async (req, res) => {
+	try {
+		const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
+
+		if (!profile) {
+			return res.status(400).json({ msg: 'User profile not found' });
+		}
+
+		return res.json(profile);
+	} catch (err) {
+		//console.error(err);
+		if (err.kind == 'ObjectId') {
+			return res.status(400).json({ msg: 'User profile not found' });
+		}
+
+		return res.status(500).send('Server Error');
+	}
+});
+
+//@route-------Delete api/profile
+//@desc--------Delete profile, user
+//@access------Private
+
+router.delete('/', authMiddle, async (req, res) => {
+	try {
+		await Profile.findOneAndRemove({ user: req.user.id });
+		await User.findOneAndRemove({ _id: req.user.id });
+		return res.json({ msg: 'User deleted' });
+	} catch (err) {
+		console.error(err);
+		return res.status(500).send('Server Error');
+	}
+});
+
+//@route-------Put api/profile/experience
+//@desc--------Add profile experience
+//@access------Private
+
+router.put(
+	'/experience',
+	[
+		authMiddle,
+		[
+			check('title', 'Title is required').not().isEmpty(),
+			check('company', 'Company is required').not().isEmpty(),
+			check('from', 'From date is required').not().isEmpty(),
+		],
+	],
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
+
+		const { title, company, location, from, to, current, description } = req.body;
+
+		const newExp = {
+			title,
+			company,
+			location,
+			from,
+			to,
+			current,
+			description,
+		};
+
+		try {
+			const profile = await Profile.findOne({ user: req.user.id });
+
+			profile.experience.unshift(newExp);
+			await profile.save();
+			return res.json(profile);
+		} catch (err) {
+			console.error(err);
+			return res.status(500).send('Server Error');
+		}
+	}
+);
+
+//@route-------Delete api/profile/experience/:exp_id
+//@desc--------Delete experience
+//@access------Private
+
+router.delete('/experience/:exp_id', authMiddle, async (req, res) => {
+	try {
+		const profile = await Profile.findOne({ user: req.user.id });
+		const removeIndex = profile.experience.map((item) => item.id).indexOf(req.params.exp_id);
+		profile.experience.splice(removeIndex, 1);
+		await profile.save();
+		return res.json(profile);
+	} catch (err) {
+		console.error(err);
+		return res.status(500).send('Server Error');
+	}
+});
+
 module.exports = router;
