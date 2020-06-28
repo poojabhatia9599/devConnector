@@ -74,7 +74,7 @@ router.post('/', [
 
 			if (profile) {
 				profile = await Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true });
-				console.log(profile);
+
 				return res.json(profile);
 			}
 			profile = new Profile(profileFields);

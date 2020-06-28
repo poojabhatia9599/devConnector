@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
+//
 //@route-------Get api/auth
 //@desc--------Test route
 //@access------Public
@@ -15,7 +16,6 @@ router.get('/', authMiddle, async (req, res) => {
 		const user = await User.findById(req.user.id).select('-password');
 		return res.json(user);
 	} catch (err) {
-		console.log(err.message);
 		return res.status(500).send('Server Error');
 	}
 });
@@ -64,7 +64,6 @@ router.post(
 				}
 			);
 		} catch (err) {
-			console.log(err.message);
 			res.status(500).send('Server Error');
 		}
 	}

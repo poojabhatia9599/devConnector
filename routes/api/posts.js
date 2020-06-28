@@ -190,7 +190,7 @@ router.delete('/comment/:id/:comment_id', authMiddle, async (req, res) => {
 		}
 
 		const removeIndex = post.comments.map((comment) => comment.user.toString()).indexOf(req.user.id);
-		console.log(removeIndex);
+
 		post.comments.splice(removeIndex, 1);
 		await post.save();
 
