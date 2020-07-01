@@ -29,10 +29,10 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
 		getCurrentProfile();
 
 		setFormData({
-			company: loading || !profile.company ? '' : profile.company,
-			twitter: loading || !profile.social ? '' : profile.social.twitter,
-			status: loading || !profile.status ? '' : profile.status,
-			skills: loading || !profile.skills ? '' : profile.skills.join(' ,'),
+			// company: loading || !profile.company ? '' : profile.company,
+			// twitter: loading || !profile.social ? '' : profile.social.twitter,
+			// status: loading || !profile.status ? '' : profile.status,
+			// skills: loading || !profile.skills ? '' : profile.skills.join(' ,'),
 		});
 		// 	if (!loading && profile) {
 		// 		const profileData = { ...initialState };
@@ -45,7 +45,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
 		// 		if (Array.isArray(profileData.skills)) profileData.skills = profileData.skills.join(', ');
 		// 		setFormData(profileData);
 		// 	}
-	}, [loading]);
+	}, [loading, getCurrentProfile]);
 	//, getCurrentProfile, profile]);
 
 	const {
