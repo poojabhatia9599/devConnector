@@ -29,10 +29,18 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
 		getCurrentProfile();
 
 		setFormData({
-			// company: loading || !profile.company ? '' : profile.company,
-			// twitter: loading || !profile.social ? '' : profile.social.twitter,
-			// status: loading || !profile.status ? '' : profile.status,
-			// skills: loading || !profile.skills ? '' : profile.skills.join(' ,'),
+			company: loading || !profile.company ? '' : profile.company,
+			website: loading || !profile.website ? '' : profile.website,
+			location: loading || !profile.location ? '' : profile.location,
+			status: loading || !profile.status ? '' : profile.status,
+			githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
+			bio: loading || !profile.bio ? '' : profile.bio,
+			skills: loading || !profile.skills ? '' : profile.skills.join(' ,'),
+			twitter: loading || !profile.social ? '' : profile.social.twitter,
+			instagram: loading || !profile.social ? '' : profile.social.instagram,
+			facebook: loading || !profile.social ? '' : profile.social.facebook,
+			youtube: loading || !profile.social ? '' : profile.social.youtube,
+			linkedin: loading || !profile.social ? '' : profile.social.linkedin,
 		});
 		// 	if (!loading && profile) {
 		// 		const profileData = { ...initialState };
